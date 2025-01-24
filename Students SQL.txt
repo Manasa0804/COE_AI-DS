@@ -1,0 +1,86 @@
+1. Display student details whose city is Pune
+
+ans: select * from student where city='Pune'; 
+
+
+2. Display student details whose city is Hyderabad or Pune
+
+ANS: Select * from student where city='Hyderabad' or city='Pune';
+
+3. Display female students from Hyderabad and male students from Pune and all the students from bglr.
+
+select * from student where gender='female and city='Hyderabad' or gender='male' and city='Pune' or city=bglr;
+
+4. Display students details 
+ ---> from Hyderabad city, male students who scored more than 70 and female who score more than 50.
+ ---> from Pune only male students
+
+select * from student city='Hyderabad' and gender='male' and marks>=70 or gender='female' and marks>=50 and city='Hyderabad' or gender='male' and city='Pune';
+
+5. Display students details whose score between 50 and 80 and city should be Hyderabad or bglr.
+
+select * from student where marks between 50 and 80 and city in ('Hyderabad','bglr');
+
+
+6.Display student details whose name starts with S and ends with A
+
+ select * from student where sname like "S%A";
+
+7.Display number of students in each city
+
+select city, count(*) as "NO of stds" from students group by city;
+
+8.Best city in education based on score.
+
+select city, avg(marks) as "avg score" from students group by city order by "avg score" desc limit 1;
+
+9.Top score in each city
+
+select city,max(marks) as top_score from student group by city order by max(marks) desc;
+
+10. Display toper details in Hyderabad.
+
+select * from student where city='Hyderabad' order by marks desc limit 1;
+------------------------------------------------------------------------------------------------------------------------------
+
+
+Q1: Find number of customers for each salespeople
+--> select sname,(select count(*) from customer where snum = salespeople.snum) as customer_count from salespeople;
+
+
+Q2: Best Salesperson based on customer rating
+-->select sname from salespeople where snum = (select snum from customer order by rating desc limit 1);
+
+
+
+Q3: To whom we need to fire from salespeople team.
+-->select sname from salespeople where snum = (select snum from customer order by rating asc limit 1);
+
+
+Q4: Who has less customer rating.
+-->select cname from customer where rating = (select min(rating) from customer);
+
+
+
+Q5. Display salespeople who has customers from same city.
+-->select sname from salespeople where snum in ( select snum from customer group by snum, city having count(distinct city) = 1);
+
+
+
+Q6. Find the names and numbers of all salespeople who had more than one customer.
+-->select sname, snum from salespeople where snum in (select snum from customer group by snum having count(cnum) > 1);
+
+
+
+Q7.Find customers in San Jose who have a rating above 200.
+-->select cname from customer where city = 'San Jose' and rating > 200;
+
+
+
+Q8. List all customers with ratings above San Joseâ€™s average.   
+-->select cname from customer where rating > (select avg(rating) from customer where city = 'San Jose');
+
+
+
+
+
